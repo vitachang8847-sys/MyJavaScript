@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <script>
+
+        // 分數等級對照表
+
+        // const score = 68
+        // switch (true) {
+        //     case score >= 90:
+        //         console.log('分數 ' + score + ' 的等級是：A');
+        //         break;
+        //     case score >= 80 && score < 89:
+        //         console.log('分數 ' + score + ' 的等級是：B');
+        //         break;
+        //     case score >= 70 && score < 79:
+        //         console.log('分數 ' + score + ' 的等級是：C');
+        //         break;
+        //     case score >= 60 && score < 69:
+        //         console.log('分數 ' + score + ' 的等級是：D');
+        //         break;
+        //     default:
+        //         console.log('分數 ' + score + ' 的等級是：F')
+        //         break;
+        // }
+        // const score = 
+        // console.log(`分數 ${score} 的等級是：${level}`)
+
+        // 閏年判斷器
+
+        // const year = 2001
+        // let isLeap;
+        // isLeap=(year % 4 ===0 && year % 100 !== 0) || (year % 400 ===0);
+        // console.log(`${year} 年是閏年：${isLeap}`);
+
+        // BMI 計算機
+        const height = 190
+        const weight = 100
+        const bmi = (weight / (height / 100) **2).toFixed(1);
+        let status = '';
+
+        switch(true){
+            case bmi <18.5:
+                status = '過輕';
+                break;
+            case bmi <=24.9:
+                status = '正常';
+                break;
+            case bmi <=29.9:
+                status = '過重';
+                break;
+        }
+            console.log(`身高 ${height}cm，體重 ${weight}kg，BMI ${bmi}，體重狀態 ${status}`)
+            console.log(`身高 ${height}cm`);
+            console.log(`體重 ${weight}kg`);
+            console.log(`BMI ${bmi}`);
+            console.log(`體重狀態 ${status}`);
+        
+
+
+
+    </script>
+</body>
+
+</html>

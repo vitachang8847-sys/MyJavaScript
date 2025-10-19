@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <script>
+        const grade = 90;
+        const level =
+            (grade >= 90)
+                ?
+                (grade >= 95)
+                    ? 'A++'
+                    : 'A+'
+                : (grade >= 80)
+                    ? 'A'
+                    : '沒有 A';
+        console.log('小明的成績:' + (level));
+        console.log(level);
+        console.log(`小明的成績: ${(grade >= 90) ? (grade >= 95) ? 'A++' : 'A+' : (grade >= 80) ? 'A' : '沒有 A'}`);
+
+
+        const age = 20
+
+        if (age >= 18) {
+            console.log('你已成年');
+            console.log('你已成年');
+            console.log('你已成年');
+        } else {
+            console.log('你未成年');
+        }
+
+        console.log('age THE END')
+
+        // 另一種寫法
+
+        const age1 = 9
+
+        if (age1 >= 18) console.log('限制級');
+        else if (age1 >= 12) console.log('輔導級');
+        else if (age1 >= 6) console.log('保護級');
+        else console.log('普遍級');
+
+
+        console.log('age1 THE END')
+
+    </script>
+</body>
+
+</html>

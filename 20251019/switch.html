@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Switch</title>
+</head>
+
+<body>
+    <script>
+        const day = 6;
+        switch (day) {
+            case 1:
+                console.log('週一');
+                break;
+            case 2:
+                console.log('週二');
+                break;
+            case 3:
+                console.log('週三');
+                break;
+            case 4:
+                console.log('週四');
+                break;
+            case 5:
+                console.log('週五');
+                break;
+            default:
+                console.log('休假中');
+                break;
+        }
+
+        // 電影分級 轉成 CASE 寫法
+        //const age1 = 9
+
+        //if (age1 >= 18) console.log('限制級');
+        //else if (age1 >= 12) console.log('輔導級');
+        //else if (age1 >= 6) console.log('保護級');
+        //else console.log('普遍級');
+        //console.log('age1 THE END')
+
+        const age = 7;
+        switch (true) {
+            case age >= 18:
+                console.log('限制級');
+                break;
+            case age >= 12:
+                console.log('輔導級');
+                break;
+            case age >= 6:
+                console.log('保護級');
+                break;
+            default:
+                console.log('普遍級');
+                break;
+        }
+
+    </script>
+</body>
+
+</html>
