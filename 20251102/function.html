@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <script>
+        // 動作重複，可製作成function
+
+        function show1() {
+            console.log("歡迎");
+            console.log("It is a good day");
+            console.log("================");
+
+        }
+        show1()
+        const name = "Vita";
+        console.log(`使用者名稱:${name}`);
+
+        console.clear();
+
+        // Fn 帶參數
+
+        function show2(name = "輸入名字") {
+            console.log(`歡迎 ${name}`);
+            console.log("It is a good day");
+            console.log("================");
+        }
+
+        show2("Jack");
+        show2();
+
+        // 數字陣列總和
+
+        function calcTotal(ary) {
+            let sum = 0;
+            for (const num of ary) sum += num;
+            return sum;
+        }
+
+        const myTotal = calcTotal([10, 20, 30, 40, 50]);
+        console.log(`計算結果為：${myTotal}`);
+
+        // 箭頭函式
+        const subArrow = (a, b = 0) => console.log(`${a - b}`);
+        console.log(subArrow(10, 2));
+
+
+        // const max ="123";
+        // console.log(max);
+
+        console.log("123");
+
+        // forEach
+
+        let nameAry = ['Ann', 'Bob', 'Chris', 'David'];
+
+        nameAry.forEach(function (v, i) {
+            console.log(v, i);
+        });
+
+        // nameAry.forEach(v => console.log(v));
+
+        console.log("================")
+
+        const fnAdd = (a, b) => a + b;
+        const fnSub = (a, b) => a - b;
+        const calc = function (a, b, fn) {
+            console.log(fn(a, b));
+        }
+
+        calc(10, 5, fnAdd);
+        calc(10, 5, fnSub);
+
+
+
+
+    </script>
+</body>
+
+</html>

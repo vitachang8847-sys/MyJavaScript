@@ -27,12 +27,28 @@
             scoreEN: 40,
             scoreMT: 100
         };
-        
+        // -----------------------------------
         console.log(std1.name)
         console.log('hi ' + std1.name)
 
+        const book = {
+            title:"小紅帽",
+            author:"Mary Lui"
+        };
 
-        
+        book.pages = 25;
+        book["出版社"] = "格林出版社",
+
+        console.log(book);
+        // -----------------------
+        Array.isArray(book);
+        Object.keys(book);
+        Object.values(book);
+
+        if("title" in book){console.log("有此藏書")}
+
+
+
 
 
     </script>
