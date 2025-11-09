@@ -37,6 +37,8 @@
         console.log(lotto_A);
         console.log(Array.from(lotto_A));
 
+
+        // 偶而會產出小於6個結果
         const lotto_B = new Set();
         for (let i = 0; i < 6; i++) {
             lotto_B.add(myRand(1, 46));
