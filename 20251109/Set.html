@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <script>
+        //Set 物件，類似暫存器，不是陣列
+        const myset = new Set(); //管理不重複的值
+        myset.add('50');
+        myset.add('10');
+        myset.add('5');
+        myset.add('50');
+        myset.add('10');
+        myset.add('1');
+
+        myset.delete(10);
+        console.log(myset)
+
+        myset.has(5);
+        myset.has(100);
+
+        //將set轉成陣列
+        const coinAry = Array.from(myset);
+        console.log(coinAry);
+        console.log(coinAry);
+
+
+
+    </script>
+
+
+</body>
+
+</html>
