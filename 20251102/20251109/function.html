@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <script>
+        let name = 'vita' //全域變數
+
+        function testScope() {
+            let name = 'max'; //區域變數
+            let age = 20;
+
+            console.log(name);
+        }
+
+        console.log(name);
+        //console.log(age); //無法顯示，因為age 是被放在{}裡
+        console.log(testScope);
+
+        // ----- 閉包 -----
+        // ----- this ------
+        console.log(this); //window
+
+        // 1. 全域環境中的 this
+        console.log(this); // 在瀏覽器中指向 window，在 Node.js 中指向 global
+
+        // 2. 物件方法中的 this
+        const person = {
+            name: '小明',
+            age: 25,
+            sayHello() {
+                console.log(`你好，我是 ${this.name}，今年 ${this.age} 歲`);
+            },
+            birthday: function () {
+                this.age++;
+                console.log(`生日快樂！現在 ${this.age} 歲了`);
+            }
+        };
+
+        person.sayHello(); // 輸出：你好，我是 小明，今年 25 歲
+        person.birthday(); // 輸出：生日快樂！現在 26 歲了
+
+    </script>
+</body>
+
+</html>
