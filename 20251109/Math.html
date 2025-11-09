@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <script>
+        // Math 物件
+
+        const rand1 = Math.random(); //0 ~ 0.9999...
+
+        // random 13 to 42 --> = random 0 to 29 + 13
+        const rand2 = Math.floor(Math.random() * 30) + 13;
+
+        function myRand(min, max) {
+            return Math.floor(Math.random() * (max - min + 1)) + min;
+
+        }
+
+        console.log(myRand(5, 10));
+
+        /* 練習題_大樂透
+        r 01 to 46，選 6 個數字, 不重複*/
+        
+        const lotto = new Set();
+        while(lotto.size < 6){
+            lotto.add(myRand(1,46));
+
+        }
+        
+        console.log(lotto);
+        console.log(Array.from(lotto));
+
+
+
+
+
+
+
+
+
+    </script>
+</body>
+</html>
