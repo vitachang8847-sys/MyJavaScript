@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <script>
+        const ary1 = ['A', 'B', 'C', 'D', 'E'];
+
+        /*const ary2 = []
+        ary1.forEach(val => ary2.push(val));
+        ary2.push('F', 'G');
+
+        console.log(ary2);
+        console.log(ary1);
+        */
+
+        /*ary2 = Array.from(ary1);
+        console.log(ary2);
+        console.log(ary1);
+        */
+
+        //----- 展開後新增物件，再重新打包 ----
+        ary2 = [...ary1];
+        ary2.push('F', 'G');
+
+        console.log(ary2);
+        console.log(ary1);
+
+        ary2 = [...ary1, 'Z', 'Y'];
+        console.log(ary2);
+        console.log(ary1);
+
+        const aryPQ = ['P', 'Q'];
+        ary2 = [...ary1, ...aryPQ];
+        console.log(ary2);
+        console.log(ary1);
+        
+
+
+
+    </script>
+</body>
+</html>
