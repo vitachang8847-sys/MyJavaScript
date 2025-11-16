@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <script>
+        // 開發者的報錯機制 (try catch finally)
+        function divide(a, b) {
+            if (b === 0) {
+                throw new Error('顯示錯誤訊息：除數不能為零');
+                return null;
+            }
+            console.log('除法計算中...');
+            return a / b;
+
+            let ans = '';
+            try {
+                if (b === 0) throw new Error('除數不能為零');
+                ans = a / b;
+            } catch (error) {
+                console.error('發生錯誤：', error.message);
+                ans =  null;
+            } finally {
+                return ans;
+            }
+        }
+
+        console.log(divide(10, 2));  // 5
+        console.log(divide(10, 0));  // null，並顯示錯誤訊息
+
+
+
+    </script>
+
+</body>
+
+</html>

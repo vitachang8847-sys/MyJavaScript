@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <script>
+        // Date 物件
+
+        const now = new Date();
+        console.log(`現在時間是: ${now}`);
+
+        const someDate = new Date();
+        console.log(`冰島跨年時，台灣時間：${someDate}`);
+
+        console.clear();
+        // 
+
+        const MonthLabel = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"]
+        console.log(`月份(index 0 ~ 11)：${MonthLabel[now.getMonth()]}`);
+        console.log(`日期：${now.getDate()}`);
+        console.log(`年：${now.getFullYear()}`);
+        console.log(`小時：${now.getHours()}`);
+        console.log(`分鐘：${now.getMinutes()}`);
+        console.log(`秒：${now.getSeconds()}`);
+        console.log(`毫秒：${now.getMilliseconds()}`);
+        console.log(`星期：${now.getDay()}`);
+
+        // 時間戳記(timestamp)
+        console.log(`從 1970/1/1 00:00:00 UTC+0 到現在的毫秒數：${now.getTime()}`);
+
+        const todayLastTime = new Date(2025, 10, 16, 23, 59, 59, 999);
+        const diffAllMs = todayLastTime.getTime() - now.getTime();
+
+        // 今天剩下 48677316 毫秒 => 算出 小時、分、秒、毫秒
+
+        const diffH = Math.floor(diffAllMs / (1000 * 60 * 60));  // 1000*60*60 Ms
+
+        const diffM = Math.floor(diffAllMs % (1000 * 60 * 60) / (1000 * 60));   //1000*60 Ms
+
+        const diffS = Math.floor(diffAllMs % (1000 * 60 * 60) % (1000 * 60) / (1000));  // 1000 Ms
+
+        const diffMs = Math.floor(diffAllMs % (1000 * 60 * 60) % (1000 * 60) % 1000);
+
+        console.log(`今天還剩下${diffH}時${diffM}分${diffS}秒${diffMs}毫秒`);
+
+        // 倒數計時器
+        function getCountDownToNewYear() {
+            const today = new Date();
+            const nextYear = new Date(now.getFullYear() + 1, 0);
+        }
+        
+        const testSetDate = new Date();
+        console.log(testSetDate.toLocaleString());
+
+        testSetDate.setFullYear(2026);
+        testSetDate.setHours(12);
+        console.log(testSetDate.toLocaleDateString());
+
+
+    </script>
+    </body>
+
+</html>
