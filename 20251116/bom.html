@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <script>
+        // SetTimeOut
+        console.log('start');
+        const timerID = setTimeout(function () {
+            console.log('delay 3s');
+        }, 3000);
+
+        console.log(timerID);
+        console.log('end');
+
+        clearTimeout(timerID);
+
+        // setInterval 重複執行
+
+        const intervaID = setInterval(() => {
+            console.log('interval done + intervalID');
+        }, 1000);
+
+        let count = 0;
+
+        const clearID = setInterval(() => {
+            count++;
+            if (count > 9) {
+                console.log('時間到!');
+                clearInterval(clearID);
+                console.log('3s 後關閉視窗');
+                setTimeout(() => window.close(), 3000);
+        return;
+        }
+        console.log(`計秒開始!${count}`);
+    }, 1000);
+
+    
+
+
+
+    </script>
+</body>
+
+</html>
