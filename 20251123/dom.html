@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DOM 1st 操作練習</title>
+</head> //head 是給瀏覽器看的
+
+<body>
+    <h1 id="myTitle">主標題</h1>
+    <h2>副標題</h2>
+    <div id="container"></div>
+    <p class="text">第一段文字</p>
+    <p class="text red" id="red">第二段文字</p>
+    <p class="text red" id="red">第二段文字</p>
+    <p class="text">第三段文字</p>
+    <p class="text">第四段文字</p>
+    <button id="btn">點擊我</button>
+    <input type="text" name="inputField" vaule="預設值">
+
+    <script>
+    //透過 CSS 選擇器取得單一元素
+        document.querySelector("#red");
+        document.querySelector('.text.red')
+    // -----------------------
+    console.clear();
+    const elH1 = document.getElementById('myTitle');
+    console.log('第一段文字',elH1);
+    console.log('第一段文字',elH1.textContent);
+    elH1.innerHTML = '透過JS改變 <span style="color:blue">主標題</span>';
+    // elH1.textContent = '<h1>123</h1>';                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        
+
+
+    </script>
+
+</body>
+
+</html>
