@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+
+
+</head>
+
+<body>
+    <!------>
+    <button onclick="clickEvent()">點擊我</button>
+    <div>
+        <input type="text" onclick="checkEventHandle('onclick')" onchange="checkEventHandle('onchange',this.value)">
+        <!--<div onmouseover ="checkEventHandle(onmouseover)">On Mouse Over</div> -->
+        <!--<div onmouseenter="checkEventHandle(onmouseenter)">On Mouse Enter</div> -->
+    </div>
+    <!------>
+    <hr>
+    <hr>
+    <form>
+        <div>
+            <label>帳號：</label>
+            <input type="text" name="username">
+            <small>密碼長度8位數字</small>
+        </div>
+        <div>
+        </div>
+        <label>密碼：</label>
+        <input type="password" name="password">
+
+    </form>
+
+    <script>
+        let count = 0;
+        const btn = document.querySelector('button');
+        btn.onclick = function () {
+            console.log('點擊事件發生1');
+        }
+
+
+
+
+
+        function clickEvent() {
+            if (count >= 2) {
+                alert('就說不要點!');
+                return;
+            }
+            alert('不要點');
+            count++;
+            console.log('點擊事件發生');
+        }
+
+        function checkEventHandle(str, value) {
+            console.log(str, value);
+        }
+
+
+    </script>
+
+
+</body>
+
+</html>

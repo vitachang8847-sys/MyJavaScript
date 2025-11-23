@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        div {
+            width: 200px;
+            height: 200px;
+            background-color: lightgreen
+        }
+    </style>
+</head>
+
+<body>
+    <button>
+        <div id="btn1" onclick="clickEvent(event)" onmouseover="clickEvent(event)">點我_1</div>
+    </button>
+    <button id="btn2">點我_2</button>
+    <hr>
+    <input type="text" id="pwd" autocomplete="false">
+    <div id="error-message"></div>
+    <hr>
+
+    <script>
+        const pwd = document.querySelector('#pwd');
+        const errorMeg = document.querySelector('#error-message');
+        const pwdReg = /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$/; //至少一個大寫+小寫+特殊符號+長度>8
+
+        errorMeg.style = 'color:red';
+
+
+        pwd.addEventListener('change', function (e) {
+            const pwdValue = e.target.value.trim();
+
+            console.log(pwdValue.test(pwdValue))
+            if (!pwdReg.test(pwdValue)) {
+                errorMeg.textContent = "密碼至少一個大寫+小寫+特殊符號+長度>8"
+            } else {
+                errorMeg.textContent = '';
+            }
+
+        })
+
+
+
+        //對BTN"點我_1" 指向、點擊，可看出滑鼠動作
+        function clickEvent(e) {
+            console.log(e.type);
+        }
+        //點擊後隨機換色
+        function clickEvent(e) {
+            const randomNum = () => Math.floor(Math.random() * 256);
+            e.target.style.backgroundColor = `rgb(${randomNum()},${randomNum()},${randomNum()})`;
+            console.log(randomNum());
+        }
+
+        //禁止按右鍵
+        /*document.addEventListener('contextmenu', function (event) {
+            event.preventDefault();
+            alert('右鍵已被禁用');
+            return false;
+        });
+        */
+
+        //禁止選取文字
+        /*document.addEventListener('selectstart', function (event) {
+            event.preventDefault();
+            alert('禁用選取文字');
+            return false;
+        });
+        */
+
+
+
+
+
+
+
+    </script>
+</body>
+
+</html>
