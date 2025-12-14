@@ -27,10 +27,13 @@ async function init() {
     service.print();
 
     //規劃左右Click 事件，更改月份
-    document.querySelector('a[href="prevCtrl"]').addEventListener('click', (e) => {e.preventDefault();
+    document.querySelector('a[href="#prevCtrl"]')
+    document.querySelector('a[href="#prevCtrl"]').addEventListener('click', (e) => {
+        e.preventDefault();
         service.sub();
     });
-    document.querySelector('a[href="nextCtrl"]').addEventListener('click', (e) => {e.preventDefault();
+    document.querySelector('a[#href="nextCtrl"]').addEventListener('click', (e) => {
+        e.preventDefault();
         service.add();
     });
 }
@@ -148,7 +151,7 @@ const calenderService = () => {
 
     //listPrint();
     return {
-        print:() => listPrint()
+        print: () => listPrint()
     }
 
 
