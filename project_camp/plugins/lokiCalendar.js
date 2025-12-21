@@ -3,6 +3,8 @@
 // dayjs 初始化
 dayjs.extend(dayjs_plugin_localeData);
 dayjs.extend(dayjs_plugin_isSameOrBefore);
+dayjs.extend(dayjs_plugin_isBetween);
+
 
 //全域變數宣告區 - 任何的初始變數與套件宣告都放置於此
 //-------------------------------------------------------------
@@ -71,16 +73,37 @@ const calenderService = () => {
       // 負責處理使用者點擊可選日期的動作
       // 使用 switch(true) 來比對多個布林條件
       switch (true) {
+        
+        // 狀態 A：尚未選擇任何日期 (第一個日期也還沒選)
         case (!chooseDates[0] && !chooseDates[1]):
-          // 狀態 A：尚未選擇任何日期 (第一個日期也還沒選)
           chooseDates[0] = node;
           node.classList.add('selectHead');
           break;
 
         // 狀態 B：已經選了第一個日期，但還沒選第二個
         case (chooseDates[0] && !chooseDates[1]):
+          if (chooseDates[0] === node) return;
+
           chooseDates[1] = node;
-          node.classList.add('selectFoot');
+          // 若 2nd 日期早於  1st 日期，交換
+          if (dayjs(chooseDates[0].dataset.date).isAfter(dayjs(chooseDates[1].
+            dataset.date))) {
+            chooseDates[0].classList.replace('selectHead', 'selectFoot');
+            chooseDates[1].classList.add('selectHead');
+            [chooseDates[0], chooseDates[1]] = [chooseDates[1], chooseDates[0]];
+
+          } else node.classList.add('selectFoot');
+
+          // 算出中間的 selectConnect
+          document.querySelectorAll('.selectDay').forEach(node => {
+            const isBetween = dayjs(node.dataset.date).isBetween(
+              chooseDates[0].dataset.date,
+              chooseDates[1].dataset.date
+            );
+            if (isBetween) {
+              node.classList.add('selectConnect');
+            }
+          });
           break;
 
         // 狀態 C：兩個日期都已經選了，此時點擊第三個點，需重置並將其設為新的起點
@@ -88,6 +111,12 @@ const calenderService = () => {
           // 移除舊有的視覺樣式
           chooseDates[0].classList.remove('selectHead');
           chooseDates[1].classList.remove('selectFoot');
+
+          // 移除 selectConnect
+          document.querySelectorAll('.selectConnect').forEach(node => {
+            node.classList.remove('selectConnect');
+          });
+
 
           // 重置資料邏輯
           chooseDates[0] = node;
