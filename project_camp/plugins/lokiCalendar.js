@@ -27,12 +27,13 @@ async function init() {
     service.print();
 
     //規劃左右Click 事件，更改月份
-    document.querySelector('a[href="#prevCtrl"]')
+    //document.querySelector('a[href="#prevCtrl"]')
     document.querySelector('a[href="#prevCtrl"]').addEventListener('click', (e) => {
         e.preventDefault();
+        console.log('Sub button clicked!')
         service.sub();
     });
-    document.querySelector('a[#href="nextCtrl"]').addEventListener('click', (e) => {
+    document.querySelector('a[href="#nextCtrl"]').addEventListener('click', (e) => {
         e.preventDefault();
         service.add();
     });
@@ -71,6 +72,17 @@ const calenderService = () => {
         title: '',
         thisDate: theDay.add(1, 'month')
     };
+
+    changeMonth = (num) => {
+        theDay = theDay.add(num, 'month');
+        objL.thisDate = theDay;
+        objR.thisDate = theDay.add(1, 'month');
+
+        objL.listBox = '';
+        objR.listBox = '';
+
+        listPrint();
+    };
     const listMaker = (obj) => {
         //obj.title = '新標題'
         //負責將指定的obj，利用obj.thisDate 產生對應的listBox & title 並覆蓋原本的obj
@@ -92,6 +104,8 @@ const calenderService = () => {
             //把i 轉成 dayjs，確認是否早於今日
             if (obj.thisDate.date(i).isSameOrBefore(today)) className += ' delDay';
             else {
+                className += ' selectDay';
+
                 //反之，才去評估否為假日
                 /*method 1
                 const isHoliday = obj.thisDate.date(i).day() === 0 || obj.thisDate.date(i).day() === 6;
@@ -147,12 +161,13 @@ const calenderService = () => {
         document.querySelector('.rightBar>h4').innerHTML = objR.title;
 
         //console.log(objL, objR)
-    }
+    };
 
-    //listPrint();
     return {
         print: () => listPrint()
     }
+};
+
+//listPrint();
 
 
-}
