@@ -5,13 +5,24 @@ dayjs.extend(dayjs_plugin_localeData);
 dayjs.extend(dayjs_plugin_isSameOrBefore);
 dayjs.extend(dayjs_plugin_isBetween);
 
-
 //全域變數宣告區 - 任何的初始變數與套件宣告都放置於此
 //-------------------------------------------------------------
 let
   nationalHoliday = [],
   pallet = {},
-  booked = [];
+  booked = [],
+  tableData = {
+    // 訂房的表格資料
+    totalPrice: 0,
+    normalCount: 0,
+    holidayCount: 0,
+    pallet: {
+      aArea: { title: '河畔 × A 區', storeCount: 0, sellInfo: '<div>123</div>', sumPrice: 100, orderCount: 1 },
+      bArea: { title: '山間 × B 區', storeCount: 6, sellInfo: '<div>222</div>', sumPrice: 200, orderCount: 3 },
+      cArea: { title: '平原 × C 區', storeCount: 7, sellInfo: '<div>333</div>', sumPrice: 300, orderCount: 5 },
+      dArea: { title: '車屋 × D 區', storeCount: 8, sellInfo: '<div>444</div>', sumPrice: 400, orderCount: 7 }
+    }
+  };
 
 
 
@@ -26,6 +37,9 @@ async function init() {
   ({ nationalHoliday, pallet, booked } = data);
 
   const service = calenderService();  // 規劃成閉包，回傳一個物件方法
+
+  // 左半部的萬年曆
+  // ------------------------------------------------------------
   service.print(); // 透過這個物件操作閉包內的方法去執行內部功能
 
   // 規劃左右 click 事件，去觸發日期改變，再算一次
@@ -37,6 +51,10 @@ async function init() {
     e.preventDefault();
     service.add();
   });
+
+  //右半部的表格清單
+  // ------------------------------------------------------------
+  service.tableRefresh();
 }
 
 init(); // 擱置一下，待會等await觸發再回來處理
@@ -71,61 +89,49 @@ const calenderService = () => {
     },
     selectHandler = (node) => {
       // 負責處理使用者點擊可選日期的動作
-      // 使用 switch(true) 來比對多個布林條件
       switch (true) {
-        
-        // 狀態 A：尚未選擇任何日期 (第一個日期也還沒選)
-        case (!chooseDates[0] && !chooseDates[1]):
+        case !chooseDates[0] && !chooseDates[1]:
+          // 當前沒有選擇任何日期 => [null, null] => first click => to [date, null]
           chooseDates[0] = node;
           node.classList.add('selectHead');
           break;
 
-        // 狀態 B：已經選了第一個日期，但還沒選第二個
-        case (chooseDates[0] && !chooseDates[1]):
+        case chooseDates[0] && !chooseDates[1]:
+          // 先檢查當下第一格日期是否和點擊的日期是否相同，成立就不要做任何事情，直接 return
           if (chooseDates[0] === node) return;
 
+          // 當下只有選第一個日期 => [date, null] => second click => to [date,date]
           chooseDates[1] = node;
-          // 若 2nd 日期早於  1st 日期，交換
-          if (dayjs(chooseDates[0].dataset.date).isAfter(dayjs(chooseDates[1].
-            dataset.date))) {
+
+          // 如果第二日期比第一個日期還早，除了交換兩日還要調整 class
+          if (dayjs(chooseDates[0].dataset.date).isAfter(dayjs(chooseDates[1].dataset.date))) {
             chooseDates[0].classList.replace('selectHead', 'selectFoot');
             chooseDates[1].classList.add('selectHead');
             [chooseDates[0], chooseDates[1]] = [chooseDates[1], chooseDates[0]];
 
           } else node.classList.add('selectFoot');
 
-          // 算出中間的 selectConnect
-          document.querySelectorAll('.selectDay').forEach(node => {
-            const isBetween = dayjs(node.dataset.date).isBetween(
-              chooseDates[0].dataset.date,
-              chooseDates[1].dataset.date
-            );
-            if (isBetween) {
-              node.classList.add('selectConnect');
-            }
-          });
+          // 此時[date,date]，要算中間的 selectConnect
+          document.querySelectorAll('.selectDay').forEach(n => dayjs(n.dataset.date).isBetween(chooseDates[0].dataset.date, chooseDates[1].dataset.date) && n.classList.add('selectConnect'));
+
+          tableMarker();
           break;
 
-        // 狀態 C：兩個日期都已經選了，此時點擊第三個點，需重置並將其設為新的起點
         default:
-          // 移除舊有的視覺樣式
+          // 都有日期 => [date, date] => third click => to [newDate, null]
           chooseDates[0].classList.remove('selectHead');
           chooseDates[1].classList.remove('selectFoot');
-
-          // 移除 selectConnect
+          // remove selectConnect
           document.querySelectorAll('.selectConnect').forEach(node => {
             node.classList.remove('selectConnect');
           });
 
-
-          // 重置資料邏輯
           chooseDates[0] = node;
           chooseDates[1] = null;
-
-          // 加入新的起點樣式
           node.classList.add('selectHead');
           break;
       }
+
     },
     listMaker = (obj) => {
       // 負責將指定的obj，利用obj.thisDate產生對應的listBox與title並覆蓋原本obj
@@ -149,7 +155,7 @@ const calenderService = () => {
           /*
           method 1
           // const isHoliday = obj.thisDate.date(i).day() === 0 || obj.thisDate.date(i).day() === 6;
-   
+  
           method 2
           f = 0, isHoliday => (0,1)+7*n === i ===  0,1,7,8,14,15,21,22,28,29
           f = 1, isHoliday => (6,7)+7*n === i ===  6,7,13,14,20,21,27,28
@@ -158,11 +164,11 @@ const calenderService = () => {
           f = 4, isHoliday => (3,4)+7*n === i ===  3,4,10,11,17,18,24,25,31
           f = 5, isHoliday => (2,3)+7*n === i ===  2,3,9,10,16,17,23,24,30
           f = 6, isHoliday => (1,2)+7*n === i ===  1,2,8,9,15,16,22,23,29,30
-   
+  
           當i 從 1 ~ 31，根據 firstDay是多少，判斷是不是紅字
           (i+firstDay) 當被七除後的餘數為0 = 代表周六
           (i+firstDay) 當被七除後的餘數為1 = 代表周日
-   
+  
           另外:國定假日從 db.json 取得，透過 array.includes() 來判斷指定字串('YYYY-MM-DD') 是否存在於 nationalHoliday 陣列中
           */
 
@@ -210,23 +216,35 @@ const calenderService = () => {
 
       document.querySelectorAll('.selectDay').forEach(node => {
         node.addEventListener('click', () => selectHandler(node));
+
+        // // 試圖從chooseDates 補上該有的 selectHead, selectFoot, selectConnect class
+        // dayjs(node.dataset.date).isBetween(chooseDates[0]?.dataset.date, chooseDates[1]?.dataset.date) && node.classList.add('selectConnect');
+        // if (chooseDates[0]?.dataset.date === node.dataset.date) node.classList.add('selectHead');
+        // if (chooseDates[1]?.dataset.date === node.dataset.date) node.classList.add('selectFoot');
       });
 
+    },
+    tableMarker = () => {
+      console.log(chooseDates);
+    },
+    tablePrint = () => {
+      document.querySelectorAll('form select').forEach(select => { // 批次處理四種營位資訊
+        const { storeCount, sellInfo } = tableData.pallet[select.name]; // 透過名稱找到指定物件並解構
 
-      // const loki = document.createElement('div');
-      // loki.id = 'lokiDebug';
-      // loki.innerHTML = `<strong>Debug Info:</strong>`;
-      // // console.log(theDay);
-      // loki.myDateObj = theDay;
+        // 產生 option
+        let optionsList = '';
+        for (let i = 0; i <= storeCount; i++) optionsList += `<option value="${i}">${i}</option>`;
+        select.innerHTML = optionsList;
+        select.disabled = !storeCount;
 
-      // document.querySelector('.calendar').appendChild(loki);
+        // 更新DIV資訊
+        const palletInfoDiv = select.parentElement.previousElementSibling;
+        palletInfoDiv.innerHTML = storeCount ? sellInfo : '';
 
+        // 更新庫存數
+        palletInfoDiv.previousElementSibling.querySelector('span').innerText = storeCount;
+      });
     };
-
-  // function changeMonth(num) {
-  //   console.log('changeMonth', num);
-  // }
-
 
   return {
     print: () => listPrint(),
@@ -237,7 +255,8 @@ const calenderService = () => {
     sub: () => {
       changeMonth(-1);
       // will sub 1 month
-    }
+    },
+    tableRefresh: () => tablePrint()
   }
 }
 
