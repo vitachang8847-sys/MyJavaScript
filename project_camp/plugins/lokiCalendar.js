@@ -17,10 +17,10 @@ let
     normalCount: 0,
     holidayCount: 0,
     pallet: {
-      aArea: { title: '河畔 × A 區', storeCount: 0, sellInfo: '<div>123</div>', sumPrice: 100, orderCount: 1 },
-      bArea: { title: '山間 × B 區', storeCount: 6, sellInfo: '<div>222</div>', sumPrice: 200, orderCount: 3 },
-      cArea: { title: '平原 × C 區', storeCount: 7, sellInfo: '<div>333</div>', sumPrice: 300, orderCount: 5 },
-      dArea: { title: '車屋 × D 區', storeCount: 8, sellInfo: '<div>444</div>', sumPrice: 400, orderCount: 7 }
+      aArea: { title: '河畔 × A 區', storeCount: 0, sellInfo: '', sumPrice: 100, orderCount: 1 },
+      bArea: { title: '山間 × B 區', storeCount: 6, sellInfo: '', sumPrice: 200, orderCount: 3 },
+      cArea: { title: '平原 × C 區', storeCount: 7, sellInfo: '', sumPrice: 300, orderCount: 5 },
+      dArea: { title: '車屋 × D 區', storeCount: 8, sellInfo: '', sumPrice: 400, orderCount: 7 }
     }
   };
 
@@ -225,39 +225,76 @@ const calenderService = () => {
 
     },
     tableMarker = () => {
-      console.log(chooseDates);
+      //console.log(chooseDates);
+
+      // 初始化 TableDate
+      tableData.normalCount = 0;
+      tableData.holidayCount = 0;
+      for (const key in tableData.pallet) {
+        tableData.pallet[key].storeCount = pallet[key].total; //初始化各區最大可賣數量
+        tableData.pallet[key].sellInfo = '';
+      }
+
+      const [startDate, endDate] = chooseDates.map(item => dayjs(item.dataset.date));
+      let current = startDate;
+
+      while (current.isBefore(endDate, 'day')) { //根據選出的日期，批次取出YYYY-MM-DD
+        const curFormat = current.format('YYYY-MM-DD');
+        const isHoliday = current.day() === 0 || current.day() === 6 || nationalHoliday.includes(curFormat);
+
+        for (const key in tableData.pallet) {
+          const hasOrder = booked.find(item => item.date === curFormat);
+          if (hasOrder) {
+            const currentStoreCount = pallet[key].total - hasOrder.sellout[key];
+            tableData.pallet[key].storeCount = Math.min(tableData.pallet[key].storeCount, currentStoreCount);
+          }
+          if (tableData.pallet[key].storeCount) {
+            const price = isHoliday ? pallet[key].holiday : pallet[key].normalPrice;
+            tableData.pallet[key].sellInfo += `<div>${curFormat}(${price})</div>`;
+            tableData.pallet[key].sumPrice += price;
+          }
+          current = current.add(1, 'day');
+        }
+        isHoliday ? tableData.holidayCount++ : tableData.normalCount++;
+        current = current.add(1, 'day');
+      }
+
+      tablePrint();
     },
-    tablePrint = () => {
-      document.querySelectorAll('form select').forEach(select => { // 批次處理四種營位資訊
-        const { storeCount, sellInfo } = tableData.pallet[select.name]; // 透過名稱找到指定物件並解構
 
-        // 產生 option
-        let optionsList = '';
-        for (let i = 0; i <= storeCount; i++) optionsList += `<option value="${i}">${i}</option>`;
-        select.innerHTML = optionsList;
-        select.disabled = !storeCount;
+      tablePrint = () => {
+        document.querySelectorAll('form select').forEach(select => { // 批次處理四種營位資訊
+          const { storeCount, sellInfo } = tableData.pallet[select.name]; // 透過名稱找到指定物件並解構
 
-        // 更新DIV資訊
-        const palletInfoDiv = select.parentElement.previousElementSibling;
-        palletInfoDiv.innerHTML = storeCount ? sellInfo : '';
+          // 產生 option
+          let optionsList = '';
+          for (let i = 0; i <= storeCount; i++) optionsList += `<option value="${i}">${i}</option>`;
+          select.innerHTML = optionsList;
+          select.disabled = !storeCount;
 
-        // 更新庫存數
-        palletInfoDiv.previousElementSibling.querySelector('span').innerText = storeCount;
-      });
-    };
+          // 更新DIV資訊
+          const palletInfoDiv = select.parentElement.previousElementSibling;
+          palletInfoDiv.innerHTML = storeCount ? sellInfo : '';
 
-  return {
-    print: () => listPrint(),
-    add: () => {
-      changeMonth(1);
-      // will add 1 month
-    },
-    sub: () => {
-      changeMonth(-1);
-      // will sub 1 month
-    },
-    tableRefresh: () => tablePrint()
-  }
-}
+          // 更新庫存數
+          palletInfoDiv.previousElementSibling.querySelector('span').innerText = storeCount;
+        });
 
-// })();
+        const { totalPrice, normalCount, holidayCount } = tableData;
+
+        document.querySelector('form h3').innerText = `$${totalPrice} / ${normalCount} 晚平日，${holidayCount}晚假日`;
+      };
+
+      return {
+        print: () => listPrint(),
+        add: () => {
+          changeMonth(1);
+          // will add 1 month
+        },
+        sub: () => {
+          changeMonth(-1);
+          // will sub 1 month
+        },
+        tableRefresh: () => tablePrint()
+      }
+    }
