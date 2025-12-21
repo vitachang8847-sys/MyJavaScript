@@ -57,6 +57,7 @@ const calenderService = () => {
       title: '',
       thisDate: theDay.add(1, 'month')
     },
+    chooseDates = [null, null],
     changeMonth = (num) => {
       theDay = theDay.add(num, 'month');
       objL.thisDate = theDay;
@@ -68,7 +69,34 @@ const calenderService = () => {
     },
     selectHandler = (node) => {
       // 負責處理使用者點擊可選日期的動作
-      console.log(node.textContent);
+      // 使用 switch(true) 來比對多個布林條件
+      switch (true) {
+        case (!chooseDates[0] && !chooseDates[1]):
+          // 狀態 A：尚未選擇任何日期 (第一個日期也還沒選)
+          chooseDates[0] = node;
+          node.classList.add('selectHead');
+          break;
+
+        // 狀態 B：已經選了第一個日期，但還沒選第二個
+        case (chooseDates[0] && !chooseDates[1]):
+          chooseDates[1] = node;
+          node.classList.add('selectFoot');
+          break;
+
+        // 狀態 C：兩個日期都已經選了，此時點擊第三個點，需重置並將其設為新的起點
+        default:
+          // 移除舊有的視覺樣式
+          chooseDates[0].classList.remove('selectHead');
+          chooseDates[1].classList.remove('selectFoot');
+
+          // 重置資料邏輯
+          chooseDates[0] = node;
+          chooseDates[1] = null;
+
+          // 加入新的起點樣式
+          node.classList.add('selectHead');
+          break;
+      }
     },
     listMaker = (obj) => {
       // 負責將指定的obj，利用obj.thisDate產生對應的listBox與title並覆蓋原本obj
@@ -92,7 +120,7 @@ const calenderService = () => {
           /*
           method 1
           // const isHoliday = obj.thisDate.date(i).day() === 0 || obj.thisDate.date(i).day() === 6;
-  
+   
           method 2
           f = 0, isHoliday => (0,1)+7*n === i ===  0,1,7,8,14,15,21,22,28,29
           f = 1, isHoliday => (6,7)+7*n === i ===  6,7,13,14,20,21,27,28
@@ -101,11 +129,11 @@ const calenderService = () => {
           f = 4, isHoliday => (3,4)+7*n === i ===  3,4,10,11,17,18,24,25,31
           f = 5, isHoliday => (2,3)+7*n === i ===  2,3,9,10,16,17,23,24,30
           f = 6, isHoliday => (1,2)+7*n === i ===  1,2,8,9,15,16,22,23,29,30
-  
+   
           當i 從 1 ~ 31，根據 firstDay是多少，判斷是不是紅字
           (i+firstDay) 當被七除後的餘數為0 = 代表周六
           (i+firstDay) 當被七除後的餘數為1 = 代表周日
-  
+   
           另外:國定假日從 db.json 取得，透過 array.includes() 來判斷指定字串('YYYY-MM-DD') 是否存在於 nationalHoliday 陣列中
           */
 
@@ -164,7 +192,7 @@ const calenderService = () => {
 
       // document.querySelector('.calendar').appendChild(loki);
 
-    }
+    };
 
   // function changeMonth(num) {
   //   console.log('changeMonth', num);
