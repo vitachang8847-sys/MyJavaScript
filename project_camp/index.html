@@ -24,6 +24,10 @@
   <script src="https://cdn.jsdelivr.net/npm/dayjs@1/plugin/localeData.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/dayjs@1/plugin/isSameOrBefore.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/dayjs@1/plugin/isBetween.js"></script>
+  <!-- aos -->
+  <link rel="stylesheet" href="https://unpkg.com/aos@next/dist/aos.css" />
+  <script src="https://unpkg.com/aos@next/dist/aos.js"></script>
+</head>
   <!-- custom -->
   <link rel="stylesheet" href="plugins/style.css">
   <link rel="stylesheet" href="plugins/lokiCalendar.css">
@@ -31,7 +35,7 @@
 </head>
 
 <body data-bs-spy="scroll" data-bs-target="#lokiMenu">
-  <nav class="navbar navbar-expand-lg text-bg-dark navbar-dark position-fixed top-0 w-100">
+  <nav class="navbar navbar-expand-lg text-bg-dark navbar-dark position-fixed top-0 w-100 ">
     <div class="container">
       <a class="navbar-brand" href="#"><i class="fa-solid fa-campground"></i> 洛奇營地渡假村</a>
       <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#lokiMenu">
@@ -99,10 +103,10 @@
   </section>
   <section id="lokiPallet" class="container pt-5">
     <div class="row row-cols-4 g-0">
-      <img class="col img-fluid" src="media/imgs/palletHeader01.jpg">
-      <img class="col img-fluid" src="media/imgs/palletHeader02.jpg">
-      <img class="col img-fluid" src="media/imgs/palletHeader03.jpg">
-      <img class="col img-fluid" src="media/imgs/palletHeader04.jpg">
+      <img class="col img-fluid" src="media/imgs/palletHeader01.jpg" data-aos="zoom-in-up" data-aos-delay="150" data-aos-mirror="true">
+      <img class="col img-fluid" src="media/imgs/palletHeader02.jpg" data-aos="fade-down" data-aos-delay="150" data-aos-mirror="true">
+      <img class="col img-fluid" src="media/imgs/palletHeader03.jpg" data-aos="fade-right" data-aos-delay="150" data-aos-mirror="true">
+      <img class="col img-fluid" src="media/imgs/palletHeader04.jpg" data-aos="slide-left" data-aos-delay="150" data-aos-mirror="true">
     </div>
     <header class="h2 my-5 border-start border-5 border-secondary ps-3">營位介紹</header>
     <article class="row row-cols-1 row-cols-md-2 flex-row-reverse g-4 gx-md-4 gy-md-0 overflow-hidden">
