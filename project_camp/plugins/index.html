@@ -19,17 +19,15 @@
   <script src="https://kit.fontawesome.com/fa483230ea.js" crossorigin="anonymous"></script>
   <!-- masonry -->
   <script src="plugins/masonry.pkgd.min.js"></script>
-
   <!-- day.js -->
   <script src="https://cdn.jsdelivr.net/npm/dayjs@1/dayjs.min.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/dayjs@1/locale/zh-tw.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/dayjs@1/plugin/localeData.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/dayjs@1/plugin/isSameOrBefore.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/dayjs@1/plugin/isBetween.js"></script>
-
   <!-- custom -->
   <link rel="stylesheet" href="plugins/style.css">
   <link rel="stylesheet" href="plugins/lokiCalendar.css">
+  <link rel="stylesheet" href="plugins/lokiLightBox.css">
 </head>
 
 <body data-bs-spy="scroll" data-bs-target="#lokiMenu">
@@ -435,7 +433,7 @@
               </div>
               <div class="leftCal">
                 <div class="leftBar">
-                  <h4> October 2022 </h4>
+                  <h4></h4>
                   <ul>
                     <li>Mo</li>
                     <li>Tu</li>
@@ -447,47 +445,11 @@
                   </ul>
                 </div>
                 <ul class="leftDayList">
-                  <li class="JsCal"></li>
-                  <li class="JsCal"></li>
-                  <li class="JsCal"></li>
-                  <li class="JsCal"></li>
-                  <li class="JsCal"></li>
-                  <li class="delDay JsCal">1</li>
-                  <li class="delDay JsCal">2</li>
-                  <li class="delDay JsCal">3</li>
-                  <li class="delDay JsCal">4</li>
-                  <li class="delDay JsCal">5</li>
-                  <li class="emptyDay JsCal">6</li>
-                  <li class="emptyDay JsCal">7</li>
-                  <li class="emptyDay JsCal holiday">8</li>
-                  <li class="emptyDay JsCal holiday">9</li>
-                  <li class="emptyDay JsCal holiday">10</li>
-                  <li class="emptyDay JsCal">11</li>
-                  <li class="emptyDay JsCal">12</li>
-                  <li class="emptyDay JsCal">13</li>
-                  <li class="emptyDay JsCal">14</li>
-                  <li class="emptyDay JsCal holiday">15</li>
-                  <li class="emptyDay JsCal holiday">16</li>
-                  <li class="emptyDay JsCal">17</li>
-                  <li class="emptyDay JsCal">18</li>
-                  <li class="emptyDay JsCal">19</li>
-                  <li class="emptyDay JsCal">20</li>
-                  <li class="emptyDay JsCal">21</li>
-                  <li class="emptyDay JsCal holiday">22</li>
-                  <li class="emptyDay JsCal holiday">23</li>
-                  <li class="emptyDay JsCal">24</li>
-                  <li class="emptyDay JsCal">25</li>
-                  <li class="emptyDay JsCal">26</li>
-                  <li class="emptyDay JsCal">27</li>
-                  <li class="emptyDay JsCal">28</li>
-                  <li class="emptyDay JsCal holiday">29</li>
-                  <li class="emptyDay JsCal holiday">30</li>
-                  <li class="emptyDay JsCal">31</li>
                 </ul>
               </div>
               <div class="rightCal">
                 <div class="rightBar">
-                  <h4> November 2022 </h4>
+                  <h4></h4>
                   <ul>
                     <li>Mo</li>
                     <li>Tu</li>
@@ -499,37 +461,6 @@
                   </ul>
                 </div>
                 <ul class="rightDayList">
-                  <li class="JsCal"></li>
-                  <li class="emptyDay JsCal">1</li>
-                  <li class="emptyDay JsCal">2</li>
-                  <li class="emptyDay JsCal">3</li>
-                  <li class="emptyDay JsCal">4</li>
-                  <li class="fullDay JsCal holiday">5</li>
-                  <li class="fullDay JsCal holiday">6</li>
-                  <li class="emptyDay JsCal">7</li>
-                  <li class="emptyDay JsCal">8</li>
-                  <li class="emptyDay JsCal">9</li>
-                  <li class="emptyDay JsCal">10</li>
-                  <li class="emptyDay JsCal">11</li>
-                  <li class="emptyDay JsCal holiday">12</li>
-                  <li class="emptyDay JsCal holiday">13</li>
-                  <li class="emptyDay JsCal">14</li>
-                  <li class="emptyDay JsCal">15</li>
-                  <li class="emptyDay JsCal selectHead">16</li>
-                  <li class="emptyDay JsCal selectConnect">17</li>
-                  <li class="emptyDay JsCal selectConnect">18</li>
-                  <li class="fullDay JsCal holiday selectConnect">19</li>
-                  <li class="emptyDay JsCal holiday selectFoot">20</li>
-                  <li class="emptyDay JsCal">21</li>
-                  <li class="emptyDay JsCal">22</li>
-                  <li class="emptyDay JsCal">23</li>
-                  <li class="emptyDay JsCal">24</li>
-                  <li class="emptyDay JsCal">25</li>
-                  <li class="emptyDay JsCal holiday">26</li>
-                  <li class="emptyDay JsCal holiday">27</li>
-                  <li class="emptyDay JsCal">28</li>
-                  <li class="emptyDay JsCal">29</li>
-                  <li class="emptyDay JsCal">30</li>
                 </ul>
               </div>
             </div>
@@ -676,49 +607,15 @@
         並僅作為學術用途。 <br>Copyright © 2022 <span class="text-white">洛奇數位設計</span>. all rights reserved </small>
     </div>
   </footer>
-  <script src="plugins/custom.js"></script>
-  <script src="plugins/lokiCalendar.js"></script>
   <section class="offcanvas offcanvas-start" data-bs-backdrop="static">
     <div class="offcanvas-header">
       <h5 class="offcanvas-title">訂位確認</h5>
       <button class="btn-close" data-bs-dismiss="offcanvas"></button>
     </div>
-    <form id="orderForm" class="offcanvas-body  needs-validation" novalidate>
+    <form id="orderForm" class="offcanvas-body needs-validation" novalidate>
       <div class="card mb-3">
-        <ol class="list-group list-group-flush list-group-numbered">
-          <li class="list-group-item d-flex justify-content-between align-items-start">
-            <div class="ms-2 me-auto">
-              <div class="fw-bold">河畔 × A區 </div>
-              <div>
-                <div>2022-12-06(1000)</div>
-                <div>2022-12-07(1000)</div>
-              </div>
-            </div>
-            <span class="badge bg-warning rounded-pill">x <span class="fs-6">2</span>帳</span>
-          </li>
-          <li class="list-group-item d-flex justify-content-between align-items-start">
-            <div class="ms-2 me-auto">
-              <div class="fw-bold">山間 × B區 </div>
-              <div>
-                <div>2022-12-06(1000)</div>
-                <div>2022-12-07(1000)</div>
-              </div>
-            </div>
-            <span class="badge bg-warning rounded-pill">x <span class="fs-6">2</span>帳</span>
-          </li>
-          <li class="list-group-item d-flex justify-content-between align-items-start">
-            <div class="ms-2 me-auto">
-              <div class="fw-bold">平原 × C區 </div>
-              <div>
-                <div>2022-12-06(1000)</div>
-                <div>2022-12-07(1000)</div>
-              </div>
-            </div>
-            <span class="badge bg-warning rounded-pill">x <span class="fs-6">2</span>帳</span>
-          </li>
-        </ol>
-        <div class="card-header h5"> $12000 / 0晚平日，2晚假日 <h5 class="card-title">$12000 / 0晚平日，2晚假日</h5>
-        </div>
+        <ol class="list-group list-group-flush list-group-numbered"></ol>
+        <div class="card-header h5"> $12000 / 0晚平日，2晚假日</div>
         <div class="card-body">
           <div class="mb-3">
             <label for="lokiUser" class="form-label">訪客姓名</label>
@@ -740,8 +637,8 @@
       </div>
     </form>
   </section>
-  <!---自訂燈箱-->
-  <section id="lokiLightBox" style="display: none;">
+  <!-- 自訂燈箱區 -->
+  <section id="lokiLightBox" style="display: none">
     <div class="mainZone">
       <img src="" class="img-fluid">
       <p></p>
@@ -752,12 +649,6 @@
   <script src="plugins/custom.js"></script>
   <script src="plugins/lokiCalendar.js"></script>
   <script src="plugins/lokiLightBox.js"></script>
-
-
-
-
-
-
 </body>
 
 </html>
