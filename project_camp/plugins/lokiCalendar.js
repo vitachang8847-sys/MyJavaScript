@@ -61,8 +61,9 @@ async function init() {
   const allSelect = document.querySelectorAll('form select');
 
   // 當任何的SELECT改變時
+  document.querySelector('#selectPallet button').disabled = true; // 預設按鈕為不可點
   allSelect.forEach(select => {
-    select.addEventListener('change', (e) => {
+    select.addEventListener('change', () => {
       // console.log(tableData.pallet);
       tableData.totalPrice = 0;
 
@@ -76,21 +77,98 @@ async function init() {
 
       //最後，隨著使用者每次的變化，將最新的總計更新到畫面上
       const { totalPrice, normalCount, holidayCount } = tableData;
-      document.querySelector('form h3').innerText = `$${totalPrice} / ${normalCount}晚平日，${holidayCount}晚假日`;
+      document.querySelector('form h3').textContent = `$${totalPrice} / ${normalCount}晚平日，${holidayCount}晚假日`;
+
+      // 如果價格是0，不給預約
+      document.querySelector('#selectPallet button').disabled = !totalPrice;
     });
   });
 
 
   // 規劃 offcanvas 的開關(按下預約按鈕時)
   // ------------------------------------------------------------
-  const bookingCanvas = new bootstrap.Offcanvas('.offcanvas')
+  const bookingCanvas = new bootstrap.Offcanvas('.offcanvas');
   document.querySelector('#selectPallet button').addEventListener('click', () => {
+    // 刷新預約單的資訊(ol>li*有預定的營位)
+    let liStr = '';
+    for (const key in tableData.pallet) {
+      const { title, sellInfo, orderCount } = tableData.pallet[key];
+      if (!orderCount) continue; //跳過沒有訂的營位
+
+      liStr += `
+      <li class="list-group-item d-flex justify-content-between align-items-start">
+        <div class="ms-2 me-auto">
+          <div class="fw-bold">${title}</div>
+          <div>${sellInfo}</div>
+        </div>
+        <span class="badge bg-warning rounded-pill">x <span class="fs-6">${orderCount}</span>帳</span>
+      </li>`;
+    }
+
+    document.querySelector('.offcanvas .h5').textContent = document.querySelector('form h3').textContent;
+    document.querySelector('.offcanvas ol').innerHTML = liStr;
     bookingCanvas.show();
   })
 
+  // 規劃預約表單送出事件
+  // ------------------------------------------------------------
+  document.forms.orderForm.addEventListener('submit', async (e) => {
+    e.preventDefault(); // 將瀏覽器預定的轉向提交行為取消，我們要自己設計提交做法
 
+    // 先檢查USER 表單資料驗證輸入
+    if (!e.target.checkValidity()) {
+      e.target.classList.add('was-validated');
+      return;
+    }
 
+    // 通過驗證，準備要送出表單資料
+    e.target.classList.remove('was-validated');
+    const formData = new FormData(e.target);
 
+    // 根據伺服器要求，提供入住日 YYYY-MM-DD 陣列 ex:
+    // "selectDate":["2022-12-07","2022-12-08"],
+    // 手動的產生符合格式的陣列，加入表單資料內
+    const [startDate, endDate] = service.getChooseDates();
+    const dateList = [];
+    for (let i = startDate; i.isBefore(endDate, 'day'); i = i.add(1, 'day')) {
+      dateList.push(i.format('YYYY-MM-DD'));
+    }
+
+    formData.append('selectDate', JSON.stringify(dateList));
+
+    // 根據伺服器要求，提供四個營位下單數量 ex:
+    // "sellout":{"aArea":0,"bArea":0,"cArea":4,"dArea":0},
+    // 手動的產生符合格式的物件，加入表單資料內
+    const { aArea, bArea, cArea, dArea } = tableData.pallet;
+    formData.append('sellout', JSON.stringify({
+      aArea: aArea.orderCount,
+      bArea: bArea.orderCount,
+      cArea: cArea.orderCount,
+      dArea: dArea.orderCount,
+    }));
+
+    // for (const [key, value] of formData.entries()) {
+    //   console.log(key, value);
+    // }
+
+    try {
+      const res = await fetch('https://jsonplaceholder.typicode.com/posts', {
+        method: 'POST', body: formData,
+      });
+
+      // console.log(res);
+      if (!res.ok) throw new Error('送出訂單失敗');
+
+      const { id } = await res.json();
+      if (id) {
+        alert(`感謝您的預約！您的預約單號為 No.${id}，期待見面`);
+        document.location.href = '/';
+      }
+    } catch (err) {
+      console.error('送出訂單失敗：', err);
+      alert('系統發生錯誤，請稍後再試');
+    }
+  });
 }
 
 init(); // 擱置一下，待會等await觸發再回來處理
@@ -253,12 +331,26 @@ const calenderService = () => {
       document.querySelectorAll('.selectDay').forEach(node => {
         node.addEventListener('click', () => selectHandler(node));
 
-        // // 試圖從chooseDates 補上該有的 selectHead, selectFoot, selectConnect class
-        dayjs(node.dataset.date).isBetween(chooseDates[0]?.dataset.date, chooseDates[1]?.dataset.date) && node.classList.add('selectConnect');
-        if (chooseDates[0]?.dataset.date === node.dataset.date) node.classList.add('selectHead');
-        if (chooseDates[1]?.dataset.date === node.dataset.date) node.classList.add('selectFoot');
+        // 試圖從chooseDates 補上該有的 selectHead, selectFoot, selectConnect class
+        const [startDateStr, endDateStr] = chooseDates.map(item => item?.dataset.date);
+        const curDateStr = node.dataset.date;
+
+        if (startDateStr && endDateStr && dayjs(curDateStr).isBetween(startDateStr, endDateStr))
+          node.classList.add('selectConnect');
+        if (startDateStr === curDateStr) {
+          // 由於原本的html因為重新生成，舊的node已經不存在了，所以要重新將新的node塞回去，才能讓selectHandler動作可以執行 remove className
+          chooseDates[0] = node;
+          node.classList.add('selectHead');
+        }
+        if (endDateStr === curDateStr) {
+          // 同理由塞回去
+          chooseDates[1] = node;
+          node.classList.add('selectFoot');
+        }
       });
 
+
+      console.log(chooseDates);
     },
     tableMarker = () => {
       // 初始化 tableData 預設的可賣情況
@@ -309,11 +401,11 @@ const calenderService = () => {
         palletInfoDiv.innerHTML = storeCount ? sellInfo : '';
 
         // 更新庫存數
-        palletInfoDiv.previousElementSibling.querySelector('span').innerText = storeCount;
+        palletInfoDiv.previousElementSibling.querySelector('span').textContent = storeCount;
       });
 
       const { totalPrice, normalCount, holidayCount } = tableData;
-      document.querySelector('form h3').innerText = `$${totalPrice} / ${normalCount}晚平日，${holidayCount}晚假日`;
+      document.querySelector('form h3').textContent = `$${totalPrice} / ${normalCount}晚平日，${holidayCount}晚假日`;
     };
 
   return {
@@ -326,7 +418,8 @@ const calenderService = () => {
       changeMonth(-1);
       // will sub 1 month
     },
-    tableRefresh: () => tablePrint()
+    tableRefresh: () => tablePrint(),
+    getChooseDates: () => chooseDates.map(item => dayjs(item.dataset.date))
   }
 }
 
