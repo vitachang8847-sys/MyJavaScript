@@ -11,7 +11,6 @@ function App() {
   const [count, setCount] = useState(0);
   const [showTitle, setShowTitle] = useState(true);
 
-
   // string 也可規劃為變數
   const h1Title = 'Vite + React';
   const MyTitle = <h1 data-id="title">{h1Title}</h1>;
@@ -35,11 +34,10 @@ function App() {
   return (
     <>
       <MyGallery showTitle={showTitle} setShowTitle={setShowTitle} />
-      <MyGallery {...{showTitle, setShowTitle}}/> // 等同於上面
+      <MyGallery {...{ showTitle, setShowTitle }} />
       <hr />
       <LokiState />
       <hr />
-
       <MyButton>Click Me!!</MyButton>
       <MyForm onSubmit={handleSubmit} onChange={handelChangeText} />
       <hr />

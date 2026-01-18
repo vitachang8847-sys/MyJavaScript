@@ -1,4 +1,4 @@
-const data = [
+const dataList = [
   {
     title: 'Lorem ipsum dolor. A',
     url: 'https://picsum.photos/300/200/?random=10',
@@ -17,4 +17,4 @@ const data = [
   },
 ];
 
-export default data;
+export default dataList;
