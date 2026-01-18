@@ -1,44 +1,7 @@
 import { useState } from 'react';
-import reactLogo from './assets/react.svg';
-import viteLogo from '/vite.svg';
 import './App.css';
-
-const alts = {
-  vite: 'Vite logo',
-  react: 'React logo',
-};
-
-function ImgVite() {
-  return <img src={viteLogo} className="logo" alt={alts.vite} />;
-}
-function LinkVite() {
-  return (
-    <a href="https://vite.dev" target="_blank">
-      <ImgVite />
-    </a>
-  );
-}
-function ImgReact() {
-  return <img src={reactLogo} className="logo react" alt={alts.react} />;
-}
-function LinkReact() {
-  return (
-    <a href="https://react.dev" target="_blank">
-      <ImgReact />
-    </a>
-  );
-}
-
-function MyLogo() {
-  const myBr = <br />;
-  return (
-    <div>
-      <LinkVite />
-      {myBr}
-      <LinkReact />
-    </div>
-  );
-}
+import LinkLogos from './features/LinkLogos';
+import { Loki } from './_shared/util';
 
 function App() {
   const [count, setCount] = useState(0);
@@ -47,9 +10,19 @@ function App() {
   const h1Title = 'Vite + React';
   const MyTitle = <h1 data-id="title">{h1Title}</h1>;
 
+  const handleClick = () => {
+    console.log('Loki button clicked!');
+  };
+  const alertClick = () => {
+    alert('Loki button alert!');
+  };
+
   return (
     <>
-      <MyLogo />
+      <Loki onClick={handleClick} />
+      <Loki onClick={alertClick} />
+      <hr />
+      <LinkLogos />
       {MyTitle}
       <div className="card" style={{ color: 'red', backgroundColor: 'black' }}>
         <button onClick={() => setCount((count) => count + 1)}>count is {count}</button>
