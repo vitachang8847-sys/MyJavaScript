@@ -1,13 +1,13 @@
 import { useState } from 'react';
 import './lesson01.css';
-import LinkLogos from '../../features/LinkLogos';
-import { Loki, EventDemo, EventObjectDemo } from '../../_shared/util';
-import MyButton from '../../_shared/MyButton';
-import MyForm from '../../features/MyForm';
-import LokiState from '../../features/FirstState';
-import MyGallery from '../../features/MyGallery';
+import LinkLogos from './features/LinkLogos';
+import { Loki, EventDemo, EventObjectDemo } from './_shared/util';
+import MyButton from './_shared/MyButton';
+import MyForm from './features/MyForm';
+import LokiState from './features/FirstState';
+import MyGallery from './features/MyGallery';
 
-function lesson01() {
+function Lesson01() {
   const [count, setCount] = useState(0);
   const [showTitle, setShowTitle] = useState(true);
 
@@ -66,4 +66,4 @@ function lesson01() {
   );
 }
 
-export default lesson01;
+export default Lesson01;

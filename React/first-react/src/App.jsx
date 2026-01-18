@@ -1,8 +1,8 @@
 import { Routes, Route, Navigate } from 'react-router';
 import Layout from './Layout';
-import Lesson01 from './pages/lesson01'; // 自動引入 index.jsx
-import Lesson02 from './pages/lesson02'; // 自動引入 index.jsx
-import Lesson03 from './pages/lesson03'; // 自動引入 index.jsx
+import Lesson01 from './pages/lesson01';
+import Lesson02 from './pages/lesson02';
+import Lesson03 from './pages/lesson03';
 
 export default function App() {
   return (
@@ -11,7 +11,7 @@ export default function App() {
       <Route element={<Layout />}>
         {/* 根路徑自動導向 /lesson01 */}
         <Route index element={<Navigate to="/lesson01" replace />} />
-        
+
         {/* 各課程路由 */}
         <Route path="lesson01" element={<Lesson01 />} />
         <Route path="lesson02" element={<Lesson02 />} />
