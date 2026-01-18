@@ -1,7 +1,10 @@
 import { useState } from 'react';
 import './App.css';
 import LinkLogos from './features/LinkLogos';
-import { Loki } from './_shared/util';
+import { Loki, EventDemo, EventObjectDemo } from './_shared/util';
+import MyButton from './_shared/MyButton';
+import MyForm from './features/MyForm';
+import LokiState from './features/FirstState';
 
 function App() {
   const [count, setCount] = useState(0);
@@ -17,9 +20,32 @@ function App() {
     alert('Loki button alert!');
   };
 
+  const handleSubmit = (e) => {
+    e.preventDefault(); // 阻止表單預設提交行為
+    console.log('submit');
+  };
+
+  const handelChangeText = (e) => {
+    console.log(e.target.value);
+  };
+
   return (
     <>
-      <Loki onClick={handleClick} />
+      <LokiState />
+      <hr />
+      <MyButton>Click Me!!</MyButton>
+      <MyForm onSubmit={handleSubmit} onChange={handelChangeText} />
+      <hr />
+      <EventObjectDemo />
+      <hr />
+      <EventDemo />
+      <hr />
+      <Loki onClick={handleClick}>
+        <ul>
+          <li>123</li>
+          <li>456</li>
+        </ul>
+      </Loki>
       <Loki onClick={alertClick} />
       <hr />
       <LinkLogos />
