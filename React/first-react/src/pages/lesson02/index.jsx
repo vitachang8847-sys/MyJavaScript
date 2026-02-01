@@ -34,6 +34,7 @@ export default function Lesson02() {
           <Route path="projects/:myId" element={<ProjectDetail />} />
           <Route path="about" element={<About />} />
           <Route path="contact" element={<Contact />} />
+          <Route path="*" element={<Navigate to="/lesson02" replace />} />
         </Routes>
       </div>
     </div>
