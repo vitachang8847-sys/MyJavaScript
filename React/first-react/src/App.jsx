@@ -5,7 +5,6 @@ import Lesson02 from './pages/lesson02';
 import Lesson03 from './pages/lesson03';
 import NotFound from './pages/NotFound/NotFound';
 
-
 export default function App() {
   return (
     <Routes>
