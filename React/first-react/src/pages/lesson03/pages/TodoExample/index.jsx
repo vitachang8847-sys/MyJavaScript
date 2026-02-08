@@ -2,6 +2,11 @@ import TaskAdd from './TaskAdd';
 import TaskList from './TaskList';
 import { useReducer } from 'react';
 
+const ADD_TODO = 'ADD';
+const DELETE_TODO = 'DELETE';
+const TOGGLE_CHECKED = 'TOGGLE_CHECKED';
+
+
 // 🌟 初始資料
 const initState = [
   { id: 1, text: '去健身房', checked: false },
@@ -13,11 +18,11 @@ const initState = [
 
 function todoReducer(state, action) {
   switch (action.type) {
-    case 'ADD':
+    case ADD_TODO:
       return [...state, { id: state.length ? state[state.length - 1].id + 1 : 1, text: action.text, checked: false }];
-    case 'DELETE':
+    case DELETE_TODO:
       return state.filter((item) => item.id !== action.id);
-    case 'TOGGLE_CHECKED':
+    case TOGGLE_CHECKED:
       return state.map((item) => (item.id === action.id ? { ...item, checked: !item.checked } : item));
     default:
       throw new Error(`Unhandled action type: ${action.type}`);
