@@ -1,7 +1,9 @@
-import { useReducer } from 'react';
+import { useReducer, createContext, useContext } from 'react';
 import { initState, todoReducer } from './store/reducer';
-import { TodoDispatchContext, TodoStateContext } from './store/reducerContext';
 import { addTodo, toggleChecked, deleteTodo } from './store/action';
+
+const TodoStateContext = createContext(null);
+const TodoDispatchContext = createContext(null);
 
 export default function TodoProviders({ children }) {
   const [todoList, dispatch] = useReducer(todoReducer, initState);
@@ -17,4 +19,12 @@ export default function TodoProviders({ children }) {
       <TodoStateContext.Provider value={todoList}>{children}</TodoStateContext.Provider>
     </TodoDispatchContext.Provider>
   );
+}
+
+export function useTodoDispatch() {
+  return useContext(TodoDispatchContext);
+}
+
+export function useTodoState() {
+  return useContext(TodoStateContext);
 }
